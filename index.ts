@@ -5,7 +5,7 @@ import { receipts } from "./data"
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 1405;
+const port = 1405;
 
 app.use(bodyParser.json());
 

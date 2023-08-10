@@ -1,30 +1,33 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var dotenv_1 = require("dotenv");
-var body_parser_1 = require("body-parser");
-var data_1 = require("./data");
+const express_1 = __importDefault(require("express"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const data_1 = require("./data");
 dotenv_1.default.config();
-var app = (0, express_1.default)();
-var port = process.env.PORT || 1405;
+const app = (0, express_1.default)();
+const port = 1405;
 app.use(body_parser_1.default.json());
 // Get all Transactions
-app.get("/transactions", function (req, res) {
+app.get("/transactions", (req, res) => {
     res.json({
         messages: "Here are all the transactions!",
         receipts: data_1.receipts,
     });
 });
 // Get Transactions by ID
-app.get("/transactions/:id", function (req, res) {
-    var receipt = data_1.receipts.filter(function (item) { return item.id == req.params.id; });
+app.get("/transactions/:id", (req, res) => {
+    const receipt = data_1.receipts.filter((item) => item.id == req.params.id);
     res.json({
         message: "Here is the transaction you ask!",
-        receipt: receipt,
+        receipt,
     });
 });
 // Post New Transaction(s)
-app.post("/transactions", function (req, res) {
+app.post("/transactions", (req, res) => {
     console.log(req.body.title);
     console.log(req.body.id);
     data_1.receipts.push(req.body);
