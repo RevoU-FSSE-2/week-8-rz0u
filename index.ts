@@ -1,3 +1,4 @@
+import { message } from './../express-typescript-route/day-3/data';
 // Environment -------------------------------------------------------------------
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
@@ -100,80 +101,57 @@ app.put("/transactions/:id", (req,res) => {
 });
 
 // // Patch (Partially updates existing object with the given ID) -------------------------------------
-app.patch("/transactions/:id", (req: Request, res: Response) => {
-    const receiptId: number = parseInt(req.params.id, 10);
-
-    if (!Number.isNaN(receiptId)) {
-        const fieldToUpdate: keyof Receipt = req.body.field; // Request body contains field to update
-        const updatedValue = req.body.value; // Updated value for the field
-        console.log(req.body.field);
-        console.log(req.body.value);
-
-        // Find the transaction with the matching ID in the receipts array
-        const transaction = receipts.find((item) => item.id === receiptId);
-
-        if (transaction) {
-            // Update the specified field with the new value
-            (transaction as any)[fieldToUpdate] = updatedValue;
-
+app.patch("/transactions:id", (req,res) => {
+    const updateReceipt = receipts;
+    let success:boolean = false;
+    for (let i = 0; i < updateReceipt.length; i++) {
+        if (updateReceipt[i].id == +req.params.id) {
+            const currReceipt = updateReceipt[i];
+            if (req.body.id) { updateReceipt[i].id = req.body.id};
+            if (req.body.type) { updateReceipt[i].type = req.body.type};
+            if (req.body.name) { updateReceipt[i].name = req.body.name};
+            if (req.body.detail) { updateReceipt[i].detail = req.body.detail};
+            if (req.body.amount) { updateReceipt[i].amount = req.body.amount};
+            success = true;
             res.json({
-                message: "Transaction updated successfully!",
-                updatedTransaction: transaction,
+                message: "Transaction updated successfully!", currReceipt
             });
-        } else {
-            res.json({
-                message: "Transaction not found :("
-            });
+            console.log(req.body.id, req.body.type, req.body.detail);
         }
-    } else {
-        res.json({
-            message: "Invalid transaction ID :("
-        });
     }
-});
+})
 
-// app.patch("/transactions:id", (req,res) => {
-//     const receiptId = parseInt(req.params.id, 10);
-//     let tipe = receipts[receiptId].type;
-//     let nama = receipts[receiptId].name;
-//     let deskripsi = receipts[receiptId].detail;
-//     let jumlah = receipts[receiptId].amount;
+// app.patch("/transactions/:id", (req: Request, res: Response) => {
+//     const receiptId: number = parseInt(req.params.id, 10);
+
 //     if (!Number.isNaN(receiptId)) {
-//         const transactionIndex = receipts.findIndex((item) => item.id === receiptId);
+//         const fieldToUpdate: keyof Receipt = req.body.field; // Request body contains field to update
+//         const updatedValue = req.body.value; // Updated value for the field
+//         console.log(req.body.field);
+//         console.log(req.body.value);
 
-//         if (transactionIndex !== -1) {
-//             if (req.body.type) {
-//                 tipe = req.body.type
-//             };
-//             if (req.body.name) {
-//                 nama = req.body.name
-//             };
-//             if (req.body.detail) {
-//                 deskripsi = req.body.detail
-//             };
-//             if (req.body.amount) {
-//                 jumlah = req.body.amount
-//             };
-//             const receiptsProduct: Receipt = {
-//                 id: receiptId,
-//                 type: tipe,
-//                 name: nama,
-//                 detail: deskripsi,
-//                 amount: jumlah,
-//             };
-//             receipts[transactionIndex] = receiptsProduct;
-//             res.json(receiptsProduct);
+//         // Find the transaction with the matching ID in the receipts array
+//         const transaction = receipts.find((item) => item.id === receiptId);
+
+//         if (transaction) {
+//             // Update the specified field with the new value
+//             (transaction as any)[fieldToUpdate] = updatedValue;
+
+//             res.json({
+//                 message: "Transaction updated successfully!",
+//                 updatedTransaction: transaction,
+//             });
 //         } else {
-//             res.status(400).json({
-//                 message: "Failed to find the transaction :("
-//                 });
+//             res.json({
+//                 message: "Transaction not found :("
+//             });
 //         }
-//     }else {
-//         res.status(400).json({
-//         message: "Invalid transaction ID :("
-//         })};
+//     } else {
+//         res.json({
+//             message: "Invalid transaction ID :("
+//         });
+//     }
 // });
-
 
 // Delete (*ID*)
 app.delete("/transactions/:id", (req,res) => {
