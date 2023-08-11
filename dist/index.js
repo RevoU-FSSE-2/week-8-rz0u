@@ -67,14 +67,76 @@ app.post("/transactions", (req, res) => {
 // Put (Updates existing object with the given ID) -----------------------------
 app.put("/transactions/:id", (req, res) => {
     const receiptId = parseInt(req.params.id, 10);
-    if ()
-        ;
+    if (!Number.isNaN(receiptId)) {
+        let updatedTransaction = req.body;
+        const transactionIndex = data_1.receipts.findIndex((item) => item.id === receiptId);
+        if (transactionIndex !== -1) {
+            data_1.receipts[transactionIndex] = Object.assign(Object.assign({}, updatedTransaction), { id: receiptId });
+            res.json({
+                message: "Transaction updated successfully!",
+                updatedTransaction: data_1.receipts[transactionIndex],
+            });
+        }
+        else {
+            res.json({
+                message: "Failed to find the transaction :("
+            });
+        }
+    }
+    else {
+        res.json({
+            message: "Invalid transaction ID :("
+        });
+    }
 });
 // Patch (Partially updates existing object with the given ID) -----------------
 app.patch("//transactions/:id", (req, res) => {
+    const receiptId = parseInt(req.params.id, 10);
+    if (!Number.isNaN(receiptId)) {
+        let updatedFields = req.body;
+        const transactionIndex = data_1.receipts.findIndex((item) => item.id === receiptId);
+        if (transactionIndex !== -1) {
+            data_1.receipts[transactionIndex] = Object.assign(Object.assign({}, data_1.receipts[transactionIndex]), updatedFields);
+            res.json({
+                message: "Transaction updated successfully!",
+                updatedTransaction: data_1.receipts[transactionIndex],
+            });
+        }
+        else {
+            res.json({
+                message: "Failed to find the transaction :("
+            });
+        }
+    }
+    else {
+        res.json({
+            message: "Invalid transaction ID :("
+        });
+    }
 });
 // Delete (*ID*)
 app.delete("//transactions/:id", (req, res) => {
+    const receiptId = parseInt(req.params.id, 10);
+    if (!Number.isNaN(receiptId)) {
+        const transactionIndex = data_1.receipts.findIndex((item) => item.id === receiptId);
+        if (transactionIndex !== -1) {
+            const deletedTransaction = data_1.receipts.splice(transactionIndex, 1)[0];
+            res.json({
+                message: "Transaction deleted successfully!",
+                deletedTransaction,
+            });
+        }
+        else {
+            res.json({
+                message: "Failed to find the transaction :("
+            });
+        }
+    }
+    else {
+        res.json({
+            message: "Invalid transaction ID :("
+        });
+    }
 });
 // Not Found
 app.get("*", (req, res) => {
