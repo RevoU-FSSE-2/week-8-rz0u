@@ -106,6 +106,8 @@ app.patch("/transactions/:id", (req: Request, res: Response) => {
     if (!Number.isNaN(receiptId)) {
         const fieldToUpdate: keyof Receipt = req.body.field; // Request body contains field to update
         const updatedValue = req.body.value; // Updated value for the field
+        console.log(req.body.field);
+        console.log(req.body.value);
 
         // Find the transaction with the matching ID in the receipts array
         const transaction = receipts.find((item) => item.id === receiptId);
