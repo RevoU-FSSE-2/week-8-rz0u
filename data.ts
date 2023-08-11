@@ -1,5 +1,5 @@
 // Object (Transaction Data)
-interface Receipt {
+export interface Receipt {
         id: number,
         type: string
         name: string

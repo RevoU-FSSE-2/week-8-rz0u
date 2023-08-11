@@ -37,13 +37,13 @@ app.get("/transactions/:id", (req, res) => {
             });
         }
         else {
-            res.json({
+            res.status(400).json({
                 message: "Failed to find the transaction :("
             });
         }
     }
     else {
-        res.json({
+        res.status(400).json({
             message: "Invalid transaction ID :("
         });
     }
@@ -78,33 +78,36 @@ app.put("/transactions/:id", (req, res) => {
             });
         }
         else {
-            res.json({
+            res.status(400).json({
                 message: "Failed to find the transaction :("
             });
         }
     }
     else {
-        res.json({
+        res.status(400).json({
             message: "Invalid transaction ID :("
         });
     }
 });
-// Patch (Partially updates existing object with the given ID) -----------------
-app.patch("//transactions/:id", (req, res) => {
+// // Patch (Partially updates existing object with the given ID) -------------------------------------
+app.patch("/transactions/:id", (req, res) => {
     const receiptId = parseInt(req.params.id, 10);
     if (!Number.isNaN(receiptId)) {
-        let updatedFields = req.body;
-        const transactionIndex = data_1.receipts.findIndex((item) => item.id === receiptId);
-        if (transactionIndex !== -1) {
-            data_1.receipts[transactionIndex] = Object.assign(Object.assign({}, data_1.receipts[transactionIndex]), updatedFields);
+        const fieldToUpdate = req.body.field; // Request body contains field to update
+        const updatedValue = req.body.value; // Updated value for the field
+        // Find the transaction with the matching ID in the receipts array
+        const transaction = data_1.receipts.find((item) => item.id === receiptId);
+        if (transaction) {
+            // Update the specified field with the new value
+            transaction[fieldToUpdate] = updatedValue;
             res.json({
                 message: "Transaction updated successfully!",
-                updatedTransaction: data_1.receipts[transactionIndex],
+                updatedTransaction: transaction,
             });
         }
         else {
             res.json({
-                message: "Failed to find the transaction :("
+                message: "Transaction not found :("
             });
         }
     }
@@ -114,8 +117,48 @@ app.patch("//transactions/:id", (req, res) => {
         });
     }
 });
+// app.patch("/transactions:id", (req,res) => {
+//     const receiptId = parseInt(req.params.id, 10);
+//     let tipe = receipts[receiptId].type;
+//     let nama = receipts[receiptId].name;
+//     let deskripsi = receipts[receiptId].detail;
+//     let jumlah = receipts[receiptId].amount;
+//     if (!Number.isNaN(receiptId)) {
+//         const transactionIndex = receipts.findIndex((item) => item.id === receiptId);
+//         if (transactionIndex !== -1) {
+//             if (req.body.type) {
+//                 tipe = req.body.type
+//             };
+//             if (req.body.name) {
+//                 nama = req.body.name
+//             };
+//             if (req.body.detail) {
+//                 deskripsi = req.body.detail
+//             };
+//             if (req.body.amount) {
+//                 jumlah = req.body.amount
+//             };
+//             const receiptsProduct: Receipt = {
+//                 id: receiptId,
+//                 type: tipe,
+//                 name: nama,
+//                 detail: deskripsi,
+//                 amount: jumlah,
+//             };
+//             receipts[transactionIndex] = receiptsProduct;
+//             res.json(receiptsProduct);
+//         } else {
+//             res.status(400).json({
+//                 message: "Failed to find the transaction :("
+//                 });
+//         }
+//     }else {
+//         res.status(400).json({
+//         message: "Invalid transaction ID :("
+//         })};
+// });
 // Delete (*ID*)
-app.delete("//transactions/:id", (req, res) => {
+app.delete("/transactions/:id", (req, res) => {
     const receiptId = parseInt(req.params.id, 10);
     if (!Number.isNaN(receiptId)) {
         const transactionIndex = data_1.receipts.findIndex((item) => item.id === receiptId);
@@ -127,13 +170,13 @@ app.delete("//transactions/:id", (req, res) => {
             });
         }
         else {
-            res.json({
+            res.status(400).json({
                 message: "Failed to find the transaction :("
             });
         }
     }
     else {
-        res.json({
+        res.status(400).json({
             message: "Invalid transaction ID :("
         });
     }
