@@ -19,11 +19,12 @@ This project is a super simple financial tracker built using Express.js, Node.Js
 
 [Fly.io](https://fly.io) is a platform that simplifies deployment and scaling of applications globally. Here's how to deploy your Express TypeScript Financial Tracker to Fly.io:
 
-1. Install the Fly CLI: `npm install -g @fly/fly`
+1. Install the Fly CLI: `pwsh -Command "iwr https://fly.io/install.ps1 -useb | iex"
+`
 
 2. Log in to your Fly.io account: `flyctl auth login`
 
-3. Initialize Fly.io in your project directory: `flyctl init`
+3. Initialize Fly.io in your project directory: `flyctl launch`
 
 4. Update the `fly.toml` configuration file:
 
@@ -114,12 +115,12 @@ A transaction object has the following properties:
 
 Assuming the server is running locally on port 3000:
 
-- To get all transactions: `GET http://localhost:3000/transactions`
-- To get a transaction by ID: `GET http://localhost:3000/transactions/:id`
-- To create a new transaction: `POST http://localhost:3000/transactions`
-- To update a transaction by ID: `PUT http://localhost:3000/transactions/:id` or `PATCH http://localhost:3000/transactions/:id`
-- To delete a transaction by ID: `DELETE http://localhost:3000/transactions/:id`
+- To get all transactions: `GET https://fintrack8.fly.dev/transactions`
+- To get a transaction by ID: `GET https://fintrack8.fly.dev/transactions/:id`
+- To create a new transaction: `POST https://fintrack8.fly.dev/transactions`
+- To update a transaction by ID: `PUT https://fintrack8.fly.dev/transactions/:id` or `PATCH https://fintrack8.fly.dev/transactions/:id`
+- To delete a transaction by ID: `DELETE https://fintrack8.fly.dev/transactions/:id`
 
 ## Conclusion
 
-This Express TypeScript Financial Tracker provides a simple yet effective way to manage and track financial transactions. It's a starting point that can be extended with additional features such as authentication, data validation, and more advanced querying options. Happy tracking!
+This Express Node Js TypeScript Financial Tracker provides a simple yet effective way to manage and track financial transactions. It's a starting point that can be extended with additional features such as authentication, data validation, and more advanced querying options. Happy tracking!
