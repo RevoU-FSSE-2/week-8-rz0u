@@ -66,9 +66,6 @@ app.post("/transactions", (req, res) => {
 });
 // Put (Updates existing object with the given ID) -----------------------------
 app.put("/transactions/:id", (req, res) => {
-    const receiptId = parseInt(req.params.id, 10);
-    if ()
-        ;
 });
 // Patch (Partially updates existing object with the given ID) -----------------
 app.patch("//transactions/:id", (req, res) => {
